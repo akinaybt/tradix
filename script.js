@@ -1,6 +1,3 @@
-Да, поняла. Замени **весь `script.js`** на этот файл целиком:
-
-```js
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   const themeToggle = document.getElementById("themeToggle");
@@ -287,4 +284,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadUSMarket().catch(console.error);
 });
-```
