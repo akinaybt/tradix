@@ -17,7 +17,6 @@ const PORT = process.env.PORT || 3000;
 const MARKETSTACK_KEY = process.env.MARKETSTACK_API_KEY;
 const MARKETSTACK_BASE = "http://api.marketstack.com/v1";
 
-// --- helpers ---
 const timeframeDays = { "1D": 1, "1M": 31, "3M": 92, "1Y": 366 };
 
 function dateDaysAgo(days) {
@@ -53,7 +52,6 @@ function currencyByCountry(code = "US") {
   return map[code] || "USD";
 }
 
-// --- FX ---
 const fxCache = new Map(); // USD_EUR -> { rate, ts }
 const FX_TTL_MS = 10 * 60 * 1000;
 
@@ -65,7 +63,6 @@ async function getFxRate(from, to) {
   const cached = fxCache.get(key);
   if (cached && now - cached.ts < FX_TTL_MS) return cached.rate;
 
-  // frankfurter: base -> to
   const url = `https://api.frankfurter.app/latest?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
   const r = await fetch(url);
   if (!r.ok) throw new Error(`FX API failed: ${r.status}`);
@@ -80,7 +77,7 @@ async function getFxRate(from, to) {
   return rate;
 }
 
-// Р’РђР–РќРћ: fallback, С‡С‚РѕР±С‹ РЅРµ РїР°РґР°Р» snapshot/stock РµСЃР»Рё FX РЅРµРґРѕСЃС‚СѓРїРµРЅ
+
 async function convertCurrency(value, from, to) {
   if (value == null) return null;
   if (from === to) return Number(value);
