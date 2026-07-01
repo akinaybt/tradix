@@ -1,12 +1,17 @@
 ﻿import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 3000;
 const MARKETSTACK_KEY = process.env.MARKETSTACK_API_KEY;
@@ -75,7 +80,7 @@ async function getFxRate(from, to) {
   return rate;
 }
 
-// ВАЖНО: fallback, чтобы не падал snapshot/stock если FX недоступен
+// Р’РђР–РќРћ: fallback, С‡С‚РѕР±С‹ РЅРµ РїР°РґР°Р» snapshot/stock РµСЃР»Рё FX РЅРµРґРѕСЃС‚СѓРїРµРЅ
 async function convertCurrency(value, from, to) {
   if (value == null) return null;
   if (from === to) return Number(value);
@@ -84,11 +89,15 @@ async function convertCurrency(value, from, to) {
     const rate = await getFxRate(from, to);
     return +(Number(value) * rate).toFixed(6);
   } catch {
-    return Number(value); // fallback без конвертации
+    return Number(value); // fallback Р±РµР· РєРѕРЅРІРµСЂС‚Р°С†РёРё
   }
 }
 
 // --- routes ---
+
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "auth.html"));
+});
 
 // 1) Snapshot for main/news page
 app.get("/api/market/snapshot", async (req, res) => {
@@ -300,6 +309,9 @@ app.get("/api/location", async (_req, res) => {
   }
 });
 
+app.use(express.static(__dirname));
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
