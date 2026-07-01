@@ -53,18 +53,39 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   };
 
-  const applyUserToHome = () => {
-    const savedUser = getSavedUser();
-    const nameEl = document.querySelector(".hero-name");
-    const avatarEl = document.querySelector(".avatar-circle");
+  const applyUserToPage = () => {
+  const savedUser = getSavedUser();
 
-    if (!savedUser) return;
+  if (!savedUser) return;
 
-    const displayName = savedUser.name || savedUser.email?.split("@")[0] || "User";
+  const displayName = savedUser.name || savedUser.email?.split("@")[0] || "User";
+  const email = savedUser.email || "";
+  const initials = getInitials(displayName);
 
-    if (nameEl) nameEl.textContent = displayName;
-    if (avatarEl) avatarEl.textContent = getInitials(displayName);
-  };
+  document.querySelectorAll(".hero-name").forEach((el) => {
+    el.textContent = displayName;
+  });
+
+  document.querySelectorAll(".avatar-circle").forEach((el) => {
+    el.textContent = initials;
+  });
+
+  document.querySelectorAll("h1, h2, h3, p, span, div, strong").forEach((el) => {
+    const text = el.textContent.trim();
+
+    if (text === "Mary Sims") {
+      el.textContent = displayName;
+    }
+
+    if (text === "mary.sims@email.com") {
+      el.textContent = email;
+    }
+
+    if (text === "MS") {
+      el.textContent = initials;
+    }
+  });
+};
 
   const logoutBtn = document.getElementById("logoutBtn");
   if (logoutBtn) {
@@ -163,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
     go("home");
   });
 
-  applyUserToHome();
+  applyUserToPage();
 
   modeButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
