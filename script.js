@@ -42,13 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return text[0].toUpperCase();
     }
 
-    return text
-      .split(/\s+/)
-      .filter(Boolean)
-      .map((part) => part[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase() || "U";
+    return (
+      text
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((part) => part[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase() || "U"
+    );
   };
 
   const applyUserToHome = () => {
@@ -80,6 +82,23 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         go(key);
       }
+    });
+  });
+
+  document.querySelectorAll("[data-link='detail']").forEach((item) => {
+    item.style.cursor = "pointer";
+
+    item.addEventListener("click", () => {
+      const symbol =
+        item.dataset.symbol ||
+        item.querySelector("strong")?.textContent?.trim() ||
+        "AAPL";
+
+      const currency = localStorage.getItem("stockpulse-currency") || "USD";
+
+      window.location.href = `detail.html?symbol=${encodeURIComponent(
+        symbol
+      )}&currency=${encodeURIComponent(currency)}`;
     });
   });
 
