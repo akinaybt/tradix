@@ -2,7 +2,6 @@ import { getStock, getIntraday } from "./api.js";
 
 let chart;
 
-// Плагин: жестко ограничиваем ширину свечи в пикселях
 const thinCandlesPlugin = {
   id: "thinCandlesPlugin",
   afterDatasetDraw(chart, args) {
@@ -85,8 +84,7 @@ function normalizeHistory(history = []) {
               Number.isFinite(p.c)
       )
       .sort((a, b) => a.t - b.t);
-
-  // дедуп по timestamp
+  
   const byTs = new Map();
   for (const r of rows) byTs.set(r.t, r);
 
@@ -99,7 +97,7 @@ function renderCandles(history, symbol, timeframe = "1M") {
 
   const normalized = normalizeHistory(history);
   const candles = normalized.map((p) => ({
-    x: p.t, // number timestamp лучше для timeseries
+    x: p.t, 
     o: p.o,
     h: p.h,
     l: p.l,
@@ -160,7 +158,6 @@ export async function loadStock(symbol, timeframe, currency) {
   if (timeframe === "1D") {
     const intra = await getIntraday(symbol, "15min", 64);
 
-    // подгоняем формат под renderCandles/updateStats
     const history = intra.history || [];
     const last = history[history.length - 1];
     const first = history[0];
