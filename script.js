@@ -85,11 +85,26 @@ document.addEventListener("DOMContentLoaded", () => {
   setMode("login");
 
   authForm?.addEventListener("submit", (e) => {
-    if (!registerTab?.classList.contains("active")) {
-      e.preventDefault();
-      go("home");
-    }
-  });
+  e.preventDefault();
+
+  const isRegister = registerTab?.classList.contains("active");
+  const email = document.getElementById("authEmail")?.value.trim() || "";
+  const name = document.getElementById("authName")?.value.trim() || "";
+
+  const displayName = isRegister && name
+    ? name
+    : email.split("@")[0] || "User";
+
+  localStorage.setItem(
+    "stockpulse-user",
+    JSON.stringify({
+      name: displayName,
+      email,
+    })
+  );
+
+  go("home");
+});
 
   modeButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
