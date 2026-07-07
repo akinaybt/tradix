@@ -106,3 +106,59 @@
 .theme-light .updated-text {
   color: rgba(255, 255, 255, 0.82);
 }
+
+.pro-benefits {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.pro-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+}
+
+.pro-benefits li::before {
+  content: "✓";
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: #28cc6a;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  flex: 0 0 auto;
+  margin-right: 0;
+}
+
+.theme-dark .pro-price-card {
+  background: #3b4656;
+  color: #ffffff;
+}
+
+.theme-light .pro-price-card {
+  background: #f4f7f7;
+  color: #182031;
+  border: 1px solid #dfe6ee;
+}
+
+.theme-light .pro-modal-pill {
+  color: #182031;
+  border-color: #dfe6ee;
+}
+
+.theme-light .pro-buy-btn {
+  background: #111111;
+  color: #ffffff;
+}
+
+.theme-light .pro-trial-btn {
+  background: #eef2f5;
+  color: #182031;
+}
