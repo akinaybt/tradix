@@ -12,6 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const newsList = document.getElementById("newsList");
   const currencySelect = document.getElementById("currencySelect");
   const searchInput = document.querySelector(".market-search");
+  document.querySelectorAll(".clean-back-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    window.history.back();
+  });
+});
 
   const routeMap = {
     home: "index.html",
